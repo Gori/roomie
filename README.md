@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Roomie
 
-## Getting Started
+Visual meeting room booking for small and medium teams.
 
-First, run the development server:
+## Features
+
+- **Instant booking**: Quick-book rooms by capacity (2, 4, or 8 people)
+- **Calendar views**: Week and day views with visual availability
+- **AI-powered**: Theme-based room naming and image generation
+- **Smart scheduling**: Conflict detection, extend/shrink active bookings
+- **Team management**: Owner, Admin, and User roles with granular permissions
+- **Repeat bookings**: Weekly recurring meetings with optional end dates
+
+## Tech Stack
+
+- **Next.js 15** (App Router) + **React 19**
+- **Convex** for database and real-time backend
+- **Clerk** for authentication (Google sign-in only)
+- **Vercel AI SDK** with GPT-5-mini and Gemini 2.5 Flash
+- **Tailwind CSS** + **ShadCN** components
+
+## Environment Setup
+
+Create `.env.local` with:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Clerk Authentication
+CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+
+# AI Models
+OPENAI_API_KEY=
+GOOGLE_GENERATIVE_AI_API_KEY=
+
+# Convex Backend
+NEXT_PUBLIC_CONVEX_URL=
+CONVEX_DEPLOYMENT=
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Development
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Install dependencies
+npm install
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Run development server
+npm run dev
 
-## Learn More
+# Lint code
+npm run lint
 
-To learn more about Next.js, take a look at the following resources:
+# Build for production
+npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## First-Time Setup
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Sign in with a company Google account
+2. First user from a domain becomes **Owner**
+3. Complete onboarding: set timezone, business hours, and theme
+4. Create meeting rooms with AI-generated names and images
+5. Start booking!
 
-## Deploy on Vercel
+## Roles & Permissions
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Owner**: Full access, transfer ownership, remove anyone
+- **Admin**: Create rooms, cancel any booking, remove users
+- **User**: Create/cancel own bookings
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Project Structure
+
+```
+src/
+├── app/              # Next.js routes
+│   ├── (app)/        # Authenticated routes
+│   └── actions.ts    # Server actions
+├── components/       # React components
+│   ├── booking/      # Booking modals and cards
+│   ├── calendar/     # Calendar views
+│   └── ui/           # ShadCN components
+├── lib/              # Utilities and hooks
+└── middleware.ts     # Clerk auth middleware
+
+convex/
+├── schema.ts         # Database schema
+├── bookings.ts       # Booking mutations/queries
+├── rooms.ts          # Room management
+└── users.ts          # User management
+```
